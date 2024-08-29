@@ -114,24 +114,23 @@ export default function RootLayout({
             background: colorBgContainer,
             maxHeight: "100vh",
             overflowY: "auto",
-            scrollbarWidth: "thin",
           }}
           width={300}
           className="scrollbar-thin"
         >
+          {/* Sticky Header Section */}
           <div
+            className="sticky top-0 z-50" // Ensure it's always on top and sticky
             style={{
               background: colorBgContainer,
             }}
-            // className="sticky top-0"
           >
             <div
+              className="flex justify-center items-center p-2"
               style={{
                 background: colorBgContainer,
                 minHeight: 100,
-                zIndex: 999,
               }}
-              className="flex justify-center items-center p-2"
             >
               <Image
                 alt="logo"
@@ -142,14 +141,17 @@ export default function RootLayout({
             </div>
             <Search
               placeholder="Search menus"
-              //   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              //     handleSearch(e.target.value);
-              //   }}
               onSearch={handleSearch}
               allowClear
-              style={{ marginBottom: 16, padding: "8px 16px", zIndex: 99 }}
+              style={{
+                marginBottom: 16,
+                padding: "8px 16px",
+                zIndex: 50, // Make sure the search bar stays above other elements
+                background: colorBgContainer,
+              }}
             />
           </div>
+          {/* Sidebar Menu */}
           <Menu
             defaultSelectedKeys={["1"]}
             mode="inline"
@@ -157,7 +159,6 @@ export default function RootLayout({
           />
         </Sider>
         <Layout>
-          {/* Header */}
           <HeaderComp />
 
           <Content style={{ margin: "0 16px" }}>
