@@ -2,21 +2,35 @@
 
 import { ConfigProvider, theme as antdTheme } from "antd";
 import { ThemeProvider, useTheme } from "next-themes";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function ThemeInitializer({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
+  const [isClient, setIsClient] = useState(false);
+  const [theme, setTheme] = useState(resolvedTheme);
 
-  // Use a memoized value for the algorithm based on the current theme
+  // Detect when we're on the client side
+  useEffect(() => {
+    setIsClient(true);
+
+    // Safely access localStorage when the component is mounted
+    const storedTheme = localStorage.getItem("theme") || "light";
+    setTheme(storedTheme);
+  }, [resolvedTheme ]);
+
+  // Memoize the theme algorithm based on the current theme state
   const themeAlgorithm = useMemo(() => {
     return theme === "light"
       ? antdTheme.defaultAlgorithm
       : antdTheme.darkAlgorithm;
-  }, [theme, typeof document !== null, document]);
+  }, [theme]);
+
+  // Only render when client-side
+  if (!isClient) return null;
 
   return (
     <ConfigProvider
