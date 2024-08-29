@@ -1,25 +1,25 @@
 "use client";
 
-import { useTheme } from "@/contexts/ThemeContext";
 import { BulbOutlined, MoonOutlined } from "@ant-design/icons";
+import { useTheme } from "next-themes";
 
 // Main component
 const ThemeSwitcher: React.FC = () => {
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { resolvedTheme, setTheme, theme } = useTheme();
 
   return (
     <div>
-      {isDarkMode ? (
+      {theme === 'light' ? (
         <BulbOutlined
           onClick={() => {
-            toggleTheme();
+            setTheme('dark');
           }}
           className="cursor-pointer text-xl hover:bg-gray-400/50 p-2 hover:rounded-full"
         />
       ) : (
         <MoonOutlined
           onClick={() => {
-            toggleTheme();
+            setTheme('light');
           }}
           className="cursor-pointer text-xl hover:bg-gray-400/50 p-2 hover:rounded-full"
         />
