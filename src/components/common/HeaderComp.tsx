@@ -25,16 +25,17 @@ export default function HeaderComp({}: Props) {
       <div className="flex justify-center items-center gap-6 pr-4">
         <ThemeSwitcher />
 
-        <Popover title={false} content={<Notification />}>
+        <Popover title={false} content={<Notification />} trigger="click">
           <Badge count={5}>
-            <BellOutlined style={{ color: "red" }} className="text-xl p-1" />
+            <BellOutlined style={{ color: "red" }} className="text-xl p-1 cursor-pointer" />
           </Badge>
         </Popover>
 
-        <Popover title={false} content={<UserCard />}>
+        <Popover title={false} content={<UserCard />} trigger="click">
           <Avatar
             style={{ backgroundColor: "#87d068" }}
             icon={<UserOutlined />}
+            className="cursor-pointer"
           />
         </Popover>
       </div>

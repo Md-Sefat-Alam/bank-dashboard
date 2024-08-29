@@ -29,14 +29,23 @@ function getItem(
   children?: MenuItem[],
   isLocked?: boolean // Pass lock status
 ): MenuItem {
+  // Label with optional lock icon if the item is locked
+  const labelWithLock = isLocked && !children ? (
+    <span className="flex justify-between">
+      {label} <LockOutlined style={{ color: "red" }} />
+    </span>
+  ) : (
+    label
+  );
+
   return {
     key,
-    icon: icon, // Show lock icon if locked
+    icon,
     children,
-    label,
-    disabled: isLocked, // Disable item if locked
-    expandIcon: isLocked && <LockOutlined />,
-  } as MenuItem;
+    label: labelWithLock, // Use the modified label with lock if applicable
+    disabled: isLocked, // Disable the item if locked
+    expandIcon: isLocked ? <LockOutlined style={{ color: "red", marginRight: '-18px' }} /> : undefined, // Show lock icon if locked
+  };
 }
 
 // Component
