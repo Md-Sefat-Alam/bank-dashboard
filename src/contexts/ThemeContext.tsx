@@ -20,7 +20,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // Retrieve theme from localStorage or default to light
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme = localStorage?.getItem("theme") || "dark";
     return savedTheme === "dark";
   });
 
@@ -39,18 +39,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     : antdTheme.defaultAlgorithm;
 
   useLayoutEffect(() => {
-    // This effect runs synchronously after DOM mutations
-    // This prevents flicker by ensuring the theme is applied immediately
-    const root = document.getElementById("root");
-    if (root) {
-      root.style.visibility = "hidden";
-      root.style.opacity = "0";
-      const timer = setTimeout(() => {
-        root.style.visibility = "visible";
-        root.style.opacity = "1";
-      }, 10); // Ensure the styles are applied before showing content
-      return () => clearTimeout(timer);
-    }
+    setIsDarkMode((prev) => {
+      const savedTheme = localStorage?.getItem("theme") || "dark";
+      return savedTheme === "dark";
+    });
   }, [isDarkMode]);
 
   return (

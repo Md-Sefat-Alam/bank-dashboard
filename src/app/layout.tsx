@@ -19,11 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ThemeProvider>
-        <body className={inter.className}>
+      <body className={inter.className}>
+        <ThemeProvider>
           <AntdRegistry>{children}</AntdRegistry>
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
