@@ -2,7 +2,7 @@
 import HeaderComp from "@/components/common/HeaderComp";
 import { LockOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Input, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Divider, Input, Layout, Menu, theme } from "antd";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import fetchMenuData from "./utils/fetch/fetchMenuData";
@@ -112,24 +112,33 @@ export default function RootLayout({
           onCollapse={(value) => setCollapsed(value)}
           style={{
             background: colorBgContainer,
+            maxHeight: "100vh",
+            overflowY: "auto",
+            scrollbarWidth: "thin",
           }}
+          width={300}
         >
-          <Header
+          <div
             style={{
               background: colorBgContainer,
             }}
-            className="flex justify-center items-center"
+            // className="sticky top-0"
           >
-            <Image alt="logo" src={"/favicon.png"} height={50} width={50} />
-          </Header>
-          <div
-            style={{
-              padding: "8px 16px",
-              position: "sticky",
-              top: "0px",
-              zIndex: 99,
-            }}
-          >
+            <div
+              style={{
+                background: colorBgContainer,
+                minHeight: 100,
+                zIndex: 999,
+              }}
+              className="flex justify-center items-center p-2"
+            >
+              <Image
+                alt="logo"
+                src={"/assets/logo/DOER_Logo.png"}
+                height={150}
+                width={150}
+              />
+            </div>
             <Search
               placeholder="Search menus"
               //   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,7 +146,7 @@ export default function RootLayout({
               //   }}
               onSearch={handleSearch}
               allowClear
-              style={{ marginBottom: 16 }}
+              style={{ marginBottom: 16, padding: "8px 16px", zIndex: 99 }}
             />
           </div>
           <Menu
