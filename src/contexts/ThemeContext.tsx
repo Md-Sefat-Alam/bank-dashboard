@@ -1,12 +1,7 @@
 "use client";
 
 import { ConfigProvider, theme as antdTheme } from "antd";
-import React, {
-  createContext,
-  useContext,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type ThemeContextType = {
   isDarkMode: boolean;
@@ -18,17 +13,15 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Retrieve theme from localStorage or default to light
-    const savedTheme = localStorage?.getItem("theme") || "dark";
-    return savedTheme === "dark";
-  });
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   // Function to toggle theme
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => {
       const newTheme = !prevMode ? "dark" : "light";
-      localStorage.setItem("theme", newTheme); // Save to localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem("theme", newTheme); // Save to localStorage only on client
+      }
       return !prevMode;
     });
   };
@@ -38,12 +31,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     ? antdTheme.darkAlgorithm
     : antdTheme.defaultAlgorithm;
 
-  useLayoutEffect(() => {
-    setIsDarkMode((prev) => {
-      const savedTheme = localStorage?.getItem("theme") || "dark";
-      return savedTheme === "dark";
-    });
-  }, [isDarkMode]);
+  // Use `useEffect` to safely access `localStorage` on the client
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      setIsDarkMode(savedTheme === "dark");
+    }
+  }, []); // Run once on component mount
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>

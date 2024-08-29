@@ -2,14 +2,14 @@
 import HeaderComp from "@/components/common/HeaderComp";
 import { LockOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Divider, Input, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Input, Layout, Menu, theme } from "antd";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import fetchMenuData from "./utils/fetch/fetchMenuData";
 
 const { Search } = Input;
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
