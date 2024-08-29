@@ -117,6 +117,7 @@ export default function RootLayout({
             scrollbarWidth: "thin",
           }}
           width={300}
+          className="scrollbar-thin"
         >
           <div
             style={{

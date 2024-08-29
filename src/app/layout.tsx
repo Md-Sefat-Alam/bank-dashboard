@@ -1,9 +1,9 @@
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
 import "./globals.css";
-import ThemeWrapper from "@/components/common/ThemeWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ThemeWrapper>
+      <ThemeProvider>
         <body className={inter.className}>
           <AntdRegistry>{children}</AntdRegistry>
         </body>
-      </ThemeWrapper>
+      </ThemeProvider>
     </html>
   );
 }

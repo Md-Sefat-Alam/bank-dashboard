@@ -2,22 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 
+/* styles/globals.css */
 :root {
-  --background-color: #ffffff;
-  --text-color: #000000;
+  /* Light Theme Scrollbar */
+  --scrollbar-thumb-color: rgba(100, 100, 100, 0.3);
+  --scrollbar-thumb-hover-color: rgba(100, 100, 100, 0.5);
+  --scrollbar-track-color: rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] {
-  --background-color: #141414;
-  --text-color: #ffffff;
+  /* Dark Theme Scrollbar */
+  --scrollbar-thumb-color: rgba(200, 200, 200, 0.5);
+  --scrollbar-thumb-hover-color: rgba(200, 200, 200, 0.8);
+  --scrollbar-track-color: rgba(255, 255, 255, 0.1);
 }
 
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
-} */
+/* Global Thin Scrollbar Styling */
+.scrollbar-thin {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
+}
+
+/* Webkit Browsers (Chrome, Edge, Safari) */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px; /* Adjust the width to make it thinner */
+  height: 8px; /* For horizontal scrollbars */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-color);
+  border-radius: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-color);
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-color);
+}
 
 /* @layer utilities {
   .text-balance {
