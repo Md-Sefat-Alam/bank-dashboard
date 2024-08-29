@@ -30,13 +30,14 @@ function getItem(
   isLocked?: boolean // Pass lock status
 ): MenuItem {
   // Label with optional lock icon if the item is locked
-  const labelWithLock = isLocked && !children ? (
-    <span className="flex justify-between">
-      {label} <LockOutlined style={{ color: "red" }} />
-    </span>
-  ) : (
-    label
-  );
+  const labelWithLock =
+    isLocked && !children ? (
+      <span className="flex justify-between">
+        {label} <LockOutlined style={{ color: "red" }} />
+      </span>
+    ) : (
+      label
+    );
 
   return {
     key,
@@ -44,7 +45,9 @@ function getItem(
     children,
     label: labelWithLock, // Use the modified label with lock if applicable
     disabled: isLocked, // Disable the item if locked
-    expandIcon: isLocked ? <LockOutlined style={{ color: "red", marginRight: '-18px' }} /> : undefined, // Show lock icon if locked
+    expandIcon: isLocked ? (
+      <LockOutlined style={{ color: "red", marginRight: "-18px" }} />
+    ) : undefined, // Show lock icon if locked
   };
 }
 
@@ -57,6 +60,7 @@ export default function RootLayout({
   const [collapsed, setCollapsed] = useState(false);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
   const {
     token: { colorBgContainer, borderRadiusLG, colorBgLayout },
@@ -162,7 +166,10 @@ export default function RootLayout({
           </div>
           {/* Sidebar Menu */}
           <Menu
-            defaultSelectedKeys={["1"]}
+            selectedKeys={selectedKey ? [selectedKey] : []}
+            onSelect={(e) => {
+              setSelectedKey(e.key);
+            }}
             mode="inline"
             items={filteredItems}
           />
