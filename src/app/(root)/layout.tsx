@@ -129,7 +129,7 @@ export default function RootLayout({
             overflowY: "auto",
           }}
           width={300}
-          className="scrollbar-thin"
+          className="hide-scrollbar"
         >
           {/* Sticky Header Section */}
           <div

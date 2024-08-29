@@ -16,7 +16,7 @@ export default function ThemeInitializer({
     return theme === "light"
       ? antdTheme.defaultAlgorithm
       : antdTheme.darkAlgorithm;
-  }, [theme, localStorage]);
+  }, [theme, typeof document !== null]);
 
   return (
     <ConfigProvider
