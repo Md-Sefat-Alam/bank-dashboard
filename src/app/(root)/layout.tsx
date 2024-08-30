@@ -61,7 +61,7 @@ export default function RootLayout({
   const [collapsed, setCollapsed] = useState(false);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [selectedKey, setSelectedKey] = useState<string[]>([]);
 
   const {
     token: { colorBgContainer, borderRadiusLG, colorBgLayout },
@@ -193,6 +193,7 @@ export default function RootLayout({
                 src={"/assets/logo/DOER_Logo.png"}
                 height={150}
                 width={150}
+                priority={true}
               />
             </div>
             <Search
@@ -210,12 +211,16 @@ export default function RootLayout({
           </div>
           {/* Sidebar Menu */}
           <Menu
-            selectedKeys={selectedKey ? [selectedKey] : []}
+            // selectedKeys={selectedKey}
             onSelect={(e) => {
-              setSelectedKey(e.key);
+              setSelectedKey(e.keyPath);
             }}
             mode="inline"
             items={filteredItems}
+            openKeys={selectedKey}
+            onOpenChange={(e) => {
+              setSelectedKey(e);
+            }}
           />
         </Sider>
         <Layout>
