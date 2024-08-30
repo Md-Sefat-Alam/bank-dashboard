@@ -44,7 +44,7 @@ function getItem(
     icon,
     children,
     label: labelWithLock,
-    // disabled: isLocked,
+    disabled: isLocked,
     expandIcon:
       isLocked && children ? (
         <LockOutlined style={{ marginRight: "-18px" }} />
