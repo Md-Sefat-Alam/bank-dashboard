@@ -21,19 +21,19 @@ export interface MenuData {
   isLocked?: boolean; // Adding isLocked to handle permission lock
 }
 
-// Function to create a menu item
+// Function to create a menu item with lock status
 function getItem(
   label: React.ReactNode,
   key: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  isLocked?: boolean // Pass lock status
+  isLocked?: boolean
 ): MenuItem {
-  // Label with optional lock icon if the item is locked
   const labelWithLock =
     isLocked && !children ? (
       <span className="flex justify-between">
-        {label} <LockOutlined style={{ color: "red" }} />
+        {label}
+        <LockOutlined style={{ marginLeft: "8px" }} />
       </span>
     ) : (
       label
@@ -43,11 +43,12 @@ function getItem(
     key,
     icon,
     children,
-    label: labelWithLock, // Use the modified label with lock if applicable
-    disabled: isLocked, // Disable the item if locked
-    expandIcon: isLocked ? (
-      <LockOutlined style={{ color: "red", marginRight: "-18px" }} />
-    ) : undefined, // Show lock icon if locked
+    label: labelWithLock,
+    // disabled: isLocked,
+    expandIcon:
+      isLocked && children ? (
+        <LockOutlined style={{ marginRight: "-18px" }} />
+      ) : undefined,
   };
 }
 
@@ -102,11 +103,53 @@ export default function RootLayout({
           const matchedChildren = item?.children
             ? deepSearch(item?.children, query)
             : [];
-          const isMatch =
-            item.label.toLowerCase().includes(query.toLowerCase()) ||
-            matchedChildren.length > 0;
 
-          return isMatch ? { ...item, children: matchedChildren } : null;
+          // Extract the text content from the label if it's JSX
+          const labelText =
+            typeof item.label === "string"
+              ? item.label
+              : item.label.props.children[0] || "";
+
+          const matchIndex = labelText
+            .toLowerCase()
+            .indexOf(query.toLowerCase());
+
+          // Highlight the matched part
+          const highlightedLabel =
+            matchIndex >= 0 ? (
+              <>
+                {labelText.substring(0, matchIndex)}
+                <span style={{ color: "#1DA1F2" }}>
+                  {labelText.substring(matchIndex, matchIndex + query.length)}
+                </span>
+                {labelText.substring(matchIndex + query.length)}
+                {item.isLocked && !item.children && (
+                  <LockOutlined style={{ color: "red" }} />
+                )}
+              </>
+            ) : (
+              <>
+                {labelText}
+                {item.isLocked && !item.children && (
+                  <LockOutlined style={{ color: "red" }} />
+                )}
+              </>
+            );
+
+          const isMatch = matchIndex >= 0 || matchedChildren.length > 0;
+
+          // If there's a match, retain all children, not just the matched ones
+          return isMatch
+            ? {
+                ...item,
+                label: highlightedLabel, // Update label with highlighted text and lock icon
+                children: item.children
+                  ? matchedChildren.length
+                    ? matchedChildren
+                    : item.children
+                  : undefined,
+              }
+            : null;
         })
         .filter((item) => item !== null); // Type guard to filter non-null values
     };
