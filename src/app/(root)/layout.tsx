@@ -205,6 +205,7 @@ export default function RootLayout({
                 zIndex: 50, // Make sure the search bar stays above other elements
                 background: colorBgContainer,
               }}
+              className="!hidden lg:!block "
             />
           </div>
           {/* Sidebar Menu */}
