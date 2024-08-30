@@ -61,7 +61,7 @@ export default function RootLayout({
   const [collapsed, setCollapsed] = useState(false);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
-  const [selectedKey, setSelectedKey] = useState<string[]>([]);
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
 
   const {
     token: { colorBgContainer, borderRadiusLG, colorBgLayout },
@@ -158,6 +158,15 @@ export default function RootLayout({
     setFilteredItems(results);
   };
 
+  // Handle the opening and closing of menu items
+  const handleOpenChange = (keys: string[]) => {
+    if (keys[keys.length - 1].split("-").length === 1) {
+      setOpenKeys([keys[keys.length - 1]]);
+    } else {
+      setOpenKeys(keys);
+    }
+  };
+
   return (
     <main>
       <Layout style={{ minHeight: "100vh" }}>
@@ -212,15 +221,13 @@ export default function RootLayout({
           {/* Sidebar Menu */}
           <Menu
             // selectedKeys={selectedKey}
-            onSelect={(e) => {
-              setSelectedKey(e.keyPath);
-            }}
+            // onSelect={(e) => {
+            //   setSelectedKey(e.keyPath);
+            // }}
             mode="inline"
             items={filteredItems}
-            openKeys={selectedKey}
-            onOpenChange={(e) => {
-              setSelectedKey(e);
-            }}
+            openKeys={openKeys}
+            onOpenChange={handleOpenChange}
           />
         </Sider>
         <Layout>
