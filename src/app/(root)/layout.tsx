@@ -160,7 +160,7 @@ export default function RootLayout({
 
   // Handle the opening and closing of menu items
   const handleOpenChange = (keys: string[]) => {
-    if (keys[keys.length - 1].split("-").length === 1) {
+    if (keys.length && keys[keys.length - 1].split("-").length === 1) {
       setOpenKeys([keys[keys.length - 1]]);
     } else {
       setOpenKeys(keys);
@@ -171,30 +171,37 @@ export default function RootLayout({
     <main>
       <Layout style={{ minHeight: "100vh" }}>
         <Sider
-          breakpoint="lg"
           collapsible={false}
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
           style={{
             background: colorBgContainer,
-            maxHeight: "100vh",
-            overflowY: "auto",
+            maxHeight: "100vh", // Ensure sidebar doesn't exceed viewport height
+            overflow: "hidden", // Prevent scrollbar on the sidebar itself
           }}
           width={300}
           className="hide-scrollbar"
         >
           {/* Sticky Header Section */}
           <div
-            className="sticky top-0 z-50" // Ensure it's always on top and sticky
+            className=""
             style={{
+              position: "relative",
               background: colorBgContainer,
+              zIndex: 50,
             }}
           >
+            {/* Logo Section */}
             <div
-              className="flex justify-center items-center p-2"
               style={{
+                position: "sticky",
+                top: 0,
+                zIndex: 1001,
                 background: colorBgContainer,
-                minHeight: 100,
+                padding: "16px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <Image
@@ -205,31 +212,44 @@ export default function RootLayout({
                 priority={true}
               />
             </div>
-            <Search
-              placeholder="Search menus"
-              onSearch={handleSearch}
-              allowClear
+
+            {/* Search Bar Section */}
+            <div
               style={{
-                marginBottom: 16,
-                padding: "8px 16px",
-                zIndex: 50, // Make sure the search bar stays above other elements
+                position: "sticky",
+                top: "150px", // Adjust to match the logo height
+                zIndex: 1001,
                 background: colorBgContainer,
+                padding: "8px 16px",
               }}
-              className="!hidden lg:!block "
+            >
+              <Search
+                placeholder="Search menus"
+                onSearch={handleSearch}
+                allowClear
+                className="!hidden lg:!block"
+              />
+            </div>
+          </div>
+
+          {/* Scrollable Menu Items */}
+          <div
+            style={{
+              overflowY: "auto",
+              maxHeight: "calc(100vh - 170px)", // Adjust this to leave room for the logo and search bar
+              paddingTop: "16px", // Adjust padding as needed
+            }}
+            className="hide-scrollbar"
+          >
+            <Menu
+              mode="inline"
+              items={filteredItems}
+              openKeys={openKeys}
+              onOpenChange={handleOpenChange}
             />
           </div>
-          {/* Sidebar Menu */}
-          <Menu
-            // selectedKeys={selectedKey}
-            // onSelect={(e) => {
-            //   setSelectedKey(e.keyPath);
-            // }}
-            mode="inline"
-            items={filteredItems}
-            openKeys={openKeys}
-            onOpenChange={handleOpenChange}
-          />
         </Sider>
+
         <Layout>
           <HeaderComp />
 
