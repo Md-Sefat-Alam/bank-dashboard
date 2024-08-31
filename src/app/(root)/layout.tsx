@@ -171,37 +171,30 @@ export default function RootLayout({
     <main>
       <Layout style={{ minHeight: "100vh" }}>
         <Sider
+          breakpoint="lg"
           collapsible={false}
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
           style={{
             background: colorBgContainer,
-            maxHeight: "100vh", // Ensure sidebar doesn't exceed viewport height
-            overflow: "hidden", // Prevent scrollbar on the sidebar itself
+            maxHeight: "100vh",
+            overflowY: "auto",
           }}
           width={300}
-          className="hide-scrollbar"
+          className="hide-scrollbar relative pt-[100px] lg:pt-[160px]"
         >
           {/* Sticky Header Section */}
           <div
-            className=""
+            className="fixed w-[80px] lg:w-[300px] top-0 z-50" // Ensure it's always on top and sticky
             style={{
-              position: "relative",
               background: colorBgContainer,
-              zIndex: 50,
             }}
           >
-            {/* Logo Section */}
             <div
+              className="flex justify-center items-center p-2"
               style={{
-                position: "sticky",
-                top: 0,
-                zIndex: 1001,
                 background: colorBgContainer,
-                padding: "16px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                minHeight: 100,
               }}
             >
               <Image
@@ -212,42 +205,26 @@ export default function RootLayout({
                 priority={true}
               />
             </div>
-
-            {/* Search Bar Section */}
-            <div
+            <Search
+              placeholder="Search menus"
+              onSearch={handleSearch}
+              allowClear
               style={{
-                position: "sticky",
-                top: "150px", // Adjust to match the logo height
-                zIndex: 1001,
-                background: colorBgContainer,
+                marginBottom: 16,
                 padding: "8px 16px",
+                zIndex: 50, // Make sure the search bar stays above other elements
+                background: colorBgContainer,
               }}
-            >
-              <Search
-                placeholder="Search menus"
-                onSearch={handleSearch}
-                allowClear
-                className="!hidden lg:!block"
-              />
-            </div>
-          </div>
-
-          {/* Scrollable Menu Items */}
-          <div
-            style={{
-              overflowY: "auto",
-              maxHeight: "calc(100vh - 170px)", // Adjust this to leave room for the logo and search bar
-              paddingTop: "16px", // Adjust padding as needed
-            }}
-            className="hide-scrollbar"
-          >
-            <Menu
-              mode="inline"
-              items={filteredItems}
-              openKeys={openKeys}
-              onOpenChange={handleOpenChange}
+              className="!hidden lg:!block "
             />
           </div>
+          {/* Sidebar Menu */}
+          <Menu
+            mode="inline"
+            items={filteredItems}
+            openKeys={openKeys}
+            onOpenChange={handleOpenChange}
+          />
         </Sider>
 
         <Layout>
