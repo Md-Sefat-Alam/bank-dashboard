@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   /* Light Theme Scrollbar */
   --scrollbar-thumb-color: rgba(100, 100, 100, 0.2);
@@ -42,7 +41,6 @@
   background-color: var(--scrollbar-track-color);
 }
 
-
 .hide-scrollbar {
   overflow: -moz-scrollbars-none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer and Edge */
@@ -57,3 +55,13 @@
     text-wrap: balance;
   }
 } */
+
+/* This a fix for mobile device submenu with lock icon getting more height */
+@media (max-width: 991px) {
+  /* Target the Ant Design submenu styles on mobile devices */
+  :where(.ant-menu-submenu-popup) > .ant-menu .ant-menu-item,
+  :where(.ant-menu-submenu-popup) > .ant-menu .ant-menu-submenu-title {
+    display: flex !important; /* Override the default display to flex */
+    align-items: center; /* Align items to the center for a better appearance */
+  }
+}
