@@ -6,6 +6,7 @@ import { Breadcrumb, Input, Layout, Menu, theme } from "antd";
 import Image from "next/image";
 import React, { Suspense, useEffect, useState } from "react";
 import fetchMenuData from "./utils/fetch/fetchMenuData";
+import Link from "next/link";
 
 const { Search } = Input;
 
@@ -19,6 +20,7 @@ export interface MenuData {
   icon: React.ReactNode;
   children?: MenuData[];
   isLocked?: boolean; // Adding isLocked to handle permission lock
+  url?: string;
 }
 
 // Function to create a menu item with lock status
@@ -27,7 +29,8 @@ function getItem(
   key: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  isLocked?: boolean
+  isLocked?: boolean,
+  url?: string
 ): MenuItem {
   const labelWithLock =
     isLocked && !children ? (
@@ -35,6 +38,8 @@ function getItem(
         {label}
         <LockOutlined style={{ marginLeft: "8px" }} />
       </span>
+    ) : url ? (
+      <Link href={url}>{label}</Link>
     ) : (
       label
     );
@@ -86,7 +91,8 @@ export default function RootLayout({
         item.key,
         item.icon,
         item.children ? formatMenuItems(item.children) : undefined,
-        item.isLocked
+        item.isLocked,
+        item.url
       )
     );
 
@@ -169,16 +175,21 @@ export default function RootLayout({
 
   return (
     <main>
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout hasSider style={{ minHeight: "100vh" }}>
         <Sider
           breakpoint="lg"
           collapsible={false}
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
           style={{
-            background: colorBgContainer,
-            maxHeight: "100vh",
-            overflowY: "auto",
+            overflow: "auto",
+            height: "100vh",
+            position: "sticky",
+            insetInlineStart: 0,
+            top: 0,
+            bottom: 0,
+            // scrollbarWidth: "thin",
+            // scrollbarColor: "unset",
           }}
           width={300}
           className="hide-scrollbar relative pt-[100px] lg:pt-[160px]"
@@ -231,7 +242,7 @@ export default function RootLayout({
           <HeaderComp />
 
           <Content style={{ margin: "0 16px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb style={{ margin: "16px 0", }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
             </Breadcrumb>
