@@ -190,6 +190,7 @@ export default function RootLayout({
             bottom: 0,
             // scrollbarWidth: "thin",
             // scrollbarColor: "unset",
+            background: colorBgContainer
           }}
           width={300}
           className="hide-scrollbar relative pt-[100px] lg:pt-[160px]"
@@ -235,6 +236,7 @@ export default function RootLayout({
             items={filteredItems}
             openKeys={openKeys}
             onOpenChange={handleOpenChange}
+            style={{}}
           />
         </Sider>
 
@@ -242,7 +244,7 @@ export default function RootLayout({
           <HeaderComp />
 
           <Content style={{ margin: "0 16px" }}>
-            <Breadcrumb style={{ margin: "16px 0", }}>
+            <Breadcrumb style={{ margin: "16px 0" }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
             </Breadcrumb>

@@ -14,17 +14,17 @@ type Props = {};
 
 export default function Overview({}: Props) {
   return (
-    <div>
-      <AccountSummary />
-      <RecentTransactions />
-      <NotificationsAlerts />
-      <PendingApprovals />
-      <QuickActions />
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
       <CreditScoreOverview />
       <ScheduledPayments />
       <RecentAccountActivity />
       <LoanStatusOverview />
+      <NotificationsAlerts />
+      <AccountSummary />
+      <RecentTransactions />
       <InvestmentPortfolioSummary />
+      <PendingApprovals />
+      <QuickActions />
     </div>
   );
 }
